@@ -1,0 +1,24 @@
+#include"tellphone.h"
+char name[100][20];
+char sex[100][4];
+char tell[100][12];
+int number,count;
+int arr[100] ;
+int main()
+{
+	while(1)
+	{
+		xianshi();
+		//1.显示屏幕
+		//2.输入操作号
+		switch(getch())
+		{
+			case 49:add_dianhuabu();break;//1.增加联系人
+			case 50:del_dianhuabu();break;//2.删除联系人
+			case 51:change_dianhuabu();break;//3.修改联系人信息
+			case 52:chaxun();break;//4.查询联系人：姓名（模糊查询）
+			case 53:all_dianhuabu();break;//5.显示所有联系人
+				
+		}
+	}
+}

@@ -1,0 +1,220 @@
+#ifndef TELLPHONE_H
+#define TELLPHONE_H
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+#include<stdbool.h>
+#include<getch.h>
+void clear_stdin(void);
+char* get_str(char* str,size_t size);
+void xianshi(void);
+void add_dianhuabu(void);
+void all_dianhuabu(void);
+void del_name(void);
+void del_tell(void);
+void change_dianhuabu(void);
+void chaxun(void);
+void del_dianhuabu(void);
+extern char name[100][20];
+extern char sex[100][4];
+extern char tell[100][12];
+extern int number,count;
+extern int arr[100] ;
+void clear_stdin(void)
+{
+	stdin->_IO_read_ptr=stdin->_IO_read_end;
+}
+char* get_str(char* str,size_t size)
+{
+	if(NULL == str) return str;
+	clear_stdin();
+	fgets(str,size,stdin);
+	if(size-1 == strlen(str))
+	{
+		if('\n'==str[size-2])
+			str[size-2]= '\0';
+		else
+			clear_stdin();
+	}
+	else
+		str[strlen(str)-1]='\0';
+}
+void xianshi(void)
+{
+	system("clear");
+	printf("***欢迎使用指针电话簿***\n");
+	printf("1、增加联系人：姓名 性别 电话\n");
+	printf("2、删除联系人：按姓名、电话删除联系人\n");
+	printf("3、修改联系人信息：按姓名修改联系人信息\n");
+	printf("4、查询联系人：姓名\n");
+	printf("5、显示所有联系人\n");
+}
+void add_dianhuabu(void)//增加联系人
+{
+	system("clear");
+	printf("请输入联系人的姓名,性别，电话\n");
+	get_str(name[number],20);
+	get_str(sex[number],4);
+	get_str(tell[number],12);
+	number++;
+	printf("输入成功！返回菜单请按其他任意键\n");
+	int i=getch();
+	return;	
+} 
+void all_dianhuabu(void)
+{
+	system("clear");
+	for(int i=0;i<number;i++ )
+	{
+		int del_number=0;
+		for(int j=0;j<count;j++)
+		{
+			if(i==arr[j])
+			del_number++;
+		}
+		if(del_number==0)
+		printf("姓名：%s 性别：%s 电话号：%s\n",name[i],sex[i],tell[i]);
+		else
+		continue;
+	}
+	printf("返回菜单请按任意键");
+	int i=getch();
+	return;
+}
+void del_name(void)
+{
+	system("clear");
+	printf("请输入要删除联系人的姓名\n");
+	char str_name[20]={};
+	int index=-1;
+	get_str(str_name,20);
+	for(int i=0;i<number;i++)
+	{
+		if(0==strcmp(str_name,name[i]))
+		{
+			index=i;
+			printf("删除成功，按任意键返回菜单\n");
+		}
+	}
+	if(index==-1)
+	{
+		printf("查无此人\n");
+		int i=getch();
+	}
+	else
+	{
+		arr[count++]=index;
+		int i=getch();
+		return;
+	}
+}
+void del_tell(void)
+{
+	system("clear");
+	printf("请输入要删除联系人的电话号码\n");
+	char str_tell[12]={};
+	int index=-1;
+	get_str(str_tell,12);
+	for(int i=0;i<number;i++)
+	{
+		if(0==strcmp(str_tell,tell[i]))
+		{
+			index=i;
+			printf("删除成功，按任意键返回菜单\n");
+		}
+	}
+	if(index==-1)
+	{
+		printf("查无此人\n");
+		int i=getch();
+	}
+	else
+	{
+		arr[count++]=index;
+		int i=getch();
+		return;
+	}
+}
+void change_dianhuabu(void)
+{
+	system("clear");
+	printf("请输入要修改的人的姓名\n");
+	char str_name[20]={};
+	get_str(str_name,20);
+	int index=-1;
+	for(int i=0;i<number;i++)
+	{
+		if(0==strcmp(str_name,name[i]))
+		{
+			index=i;
+		}
+	}
+	if( index == -1)
+	{
+		printf("查无此人\n");
+		int i=getch();
+	}
+	else
+	{
+		printf("请输入要修改的信息，修改名字请按1，修改性别请按2，修改电话号码请按3\n");
+		switch(getch())
+		{
+			case 49:printf("请输入修改后的姓名:");get_str(name[index],20);break;//1.修改名字
+			case 50:printf("请输入修改后的性别:");get_str(sex[index],4);break;//2.修改性别
+			case 51:printf("请输入修改后的电话号码:");get_str(tell[index],12);break;//3.修改电话号码
+		}
+	}
+}
+void chaxun(void)
+{
+	system("clear");
+	printf("请输入要查询人的姓名（模糊）");
+	char str_name[20]={};
+	get_str(str_name,20);
+	int index=-1;
+	int brr[10]={};
+	int brr_number=0;
+	for(int i=0;i<number;i++)
+	{
+		if(strstr(name[i],str_name))
+		{
+			index=i;
+			brr[brr_number++]=i;
+		}
+	}
+	if( index == -1)
+	{
+		printf("查无此人\n");
+		int i=getch();
+	}
+	else
+	{
+		for(int i=0;i<brr_number;i++ )
+		{
+			int del_number=0;
+			for(int j=0;j<count;j++)
+			{
+				if(brr[i]==arr[j])
+				del_number++;
+			}
+			if(del_number==0)
+			printf("姓名：%s 性别：%s 电话号：%s\n",name[brr[i]],sex[brr[i]],tell[brr[i]]);
+			else
+			continue;
+		}
+		int i=getch();
+	}
+	
+}
+void del_dianhuabu(void)
+{
+	printf("用电话号码删除请按1，用姓名删除请按2\n");
+	switch(getch())
+		{
+			case 49:del_tell();break;//1.增加联系人
+			case 50:del_name();break;//2.删除联系人
+				
+		}
+}
+
+#endif
